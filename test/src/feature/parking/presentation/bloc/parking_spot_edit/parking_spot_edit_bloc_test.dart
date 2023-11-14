@@ -48,8 +48,8 @@ void main() {
       expect: () => [
         isA<ParkingSpotEditState>()
             .having((p) => p.status, 'status', ParkingSpotEditStatus.LOADING),
-        isA<ParkingSpotEditState>()
-            .having((p) => p.status, 'status', ParkingSpotEditStatus.SUCCESS)
+        isA<ParkingSpotEditState>().having(
+            (p) => p.status, 'status', ParkingSpotEditStatus.ENTRY_SUCCESS)
       ],
     );
 
@@ -86,7 +86,7 @@ void main() {
       setUp: () {
         when(() => checkOutTheVehicleUseCase.call(
                 parkingSpotId: any(named: 'parkingSpotId')))
-            .thenAnswer((_) async => Right(null));
+            .thenAnswer((_) async => Right(checkInSpotEntity));
       },
       act: (bloc) => bloc.add(
         CheckOutTheVehicleEvent(
@@ -96,8 +96,8 @@ void main() {
       expect: () => [
         isA<ParkingSpotEditState>()
             .having((p) => p.status, 'status', ParkingSpotEditStatus.LOADING),
-        isA<ParkingSpotEditState>()
-            .having((p) => p.status, 'status', ParkingSpotEditStatus.SUCCESS)
+        isA<ParkingSpotEditState>().having(
+            (p) => p.status, 'status', ParkingSpotEditStatus.EXIT_SUCCESS)
       ],
     );
 
