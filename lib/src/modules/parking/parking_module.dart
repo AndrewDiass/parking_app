@@ -65,5 +65,13 @@ class ParkingModule extends Module {
   }
 
   @override
-  void routes(r) {}
+  void routes(r) {
+    r.child(
+      '/',
+      child: (context) => ParkingPage(
+        parkingBloc: Modular.get(),
+        parkingSpotEditBloc: Modular.get(),
+      ),
+    );
+  }
 }
