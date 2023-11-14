@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -12,6 +13,7 @@ class AppWidget extends StatelessWidget {
       title: 'Estacionamento App',
       theme: PK_THEME_DATA,
       routerConfig: Modular.routerConfig,
+      builder: BotToastInit(),
     );
   }
 }
