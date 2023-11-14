@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'core/utils/services/implementations/shared_preferences_storage_service_impl.dart';
 import 'core/utils/services/interfaces/i_storage_service.dart';
+import 'modules/parking/parking_module.dart';
 
 class AppModule extends Module {
   @override
@@ -12,5 +13,7 @@ class AppModule extends Module {
   }
 
   @override
-  void routes(r) {}
+  void routes(r) {
+    r.module('/', module: ParkingModule());
+  }
 }
