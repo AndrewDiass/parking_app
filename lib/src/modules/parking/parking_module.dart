@@ -8,10 +8,12 @@ import '../../feature/parking/domain/usecases/implementations/check_in_the_vehic
 import '../../feature/parking/domain/usecases/implementations/check_out_the_vehicle_usecase_impl.dart';
 import '../../feature/parking/domain/usecases/implementations/generate_parking_spot_usecase_impl.dart';
 import '../../feature/parking/domain/usecases/implementations/get_parking_spot_list_usecase_impl.dart';
+import '../../feature/parking/domain/usecases/implementations/save_to_history_usecase_impl.dart';
 import '../../feature/parking/domain/usecases/interfaces/i_check_in_the_vehicle_usecase.dart';
 import '../../feature/parking/domain/usecases/interfaces/i_check_out_the_vehicle_usecase.dart';
 import '../../feature/parking/domain/usecases/interfaces/i_generate_parking_spot_usecase.dart';
 import '../../feature/parking/domain/usecases/interfaces/i_get_parking_spot_list_usecase.dart';
+import '../../feature/parking/domain/usecases/interfaces/i_save_to_history_usecase.dart';
 import '../../feature/parking/presentation/bloc/parking/parking_bloc.dart';
 import '../../feature/parking/presentation/bloc/parking_spot_edit/parking_spot_edit_bloc.dart';
 import '../../feature/parking/presentation/pages/parking_page.dart';
@@ -40,10 +42,17 @@ class ParkingModule extends Module {
         repository: i.get(),
       ),
     );
+
+    i.add<ISaveToHistoryUseCase>(
+      () => SaveToHistoryUseCase(
+        repository: i.get(),
+      ),
+    );
     i.add<ParkingBloc>(
       () => ParkingBloc(
         getParkingSpotListUseCase: i.get(),
         generateParkingSpotUseCase: i.get(),
+        saveToHistory: i.get(),
       ),
     );
     i.add<ICheckInTheVehicleUseCase>(

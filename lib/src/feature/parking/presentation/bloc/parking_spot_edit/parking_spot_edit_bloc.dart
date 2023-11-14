@@ -28,7 +28,7 @@ class ParkingSpotEditBloc
         (parkingSpotListResult) {
           emit(
             state.copyWith(
-              status: ParkingSpotEditStatus.SUCCESS,
+              status: ParkingSpotEditStatus.ENTRY_SUCCESS,
             ),
           );
         },
@@ -44,8 +44,11 @@ class ParkingSpotEditBloc
         (failure) {
           emit(state.copyWith(status: ParkingSpotEditStatus.FAILURE));
         },
-        (_) {
-          emit(state.copyWith(status: ParkingSpotEditStatus.SUCCESS));
+        (parkingSpotEntity) {
+          emit(state.copyWith(
+            status: ParkingSpotEditStatus.EXIT_SUCCESS,
+            parkignSpotToSave: parkingSpotEntity,
+          ));
         },
       );
     });

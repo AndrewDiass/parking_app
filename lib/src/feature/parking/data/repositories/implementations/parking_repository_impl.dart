@@ -69,10 +69,10 @@ class ParkingRepositoryImpl implements IParkingRepository {
   }
 
   @override
-  Future<Either<Failure, void>> checkOutTheVehicle({
+  Future<Either<Failure, ParkingSpotEntity>> checkOutTheVehicle({
     required String parkingSpotId,
   }) {
-    return _handleRequestOrErros<void>(
+    return _handleRequestOrErros<ParkingSpotEntity>(
       () async {
         return await dataSource.checkOutTheVehicle(
             parkingSpotId: parkingSpotId);

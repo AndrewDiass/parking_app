@@ -72,7 +72,7 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
   }
 
   @override
-  Future<void> checkOutTheVehicle({
+  Future<ParkingSpotModel> checkOutTheVehicle({
     required String parkingSpotId,
   }) async {
     try {
@@ -81,6 +81,8 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
 
       final index =
           parkingSpotList.indexWhere((spot) => spot.id == parkingSpotId);
+
+      final spotSaveToHistory = parkingSpotList[index].copyWith();
 
       parkingSpotList[index] = ParkingSpotModel(
         id: parkingSpotList[index].id,
@@ -97,6 +99,10 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
 
       await writeParkingSpotListStorage(
           keyNameStorage: PARKING_SPOT_LIST, parkingPostList: parkingSpotList);
+
+      return spotSaveToHistory.copyWith(
+        departureDate: DateTime.now().millisecondsSinceEpoch,
+      );
     } catch (e) {
       throw DataSourceException(message: dataSourceException);
     }
@@ -112,7 +118,7 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
     parkingSpotList.add(parkingSpot);
 
     return await writeParkingSpotListStorage(
-      keyNameStorage: PARKING_SPOT_LIST,
+      keyNameStorage: PARKING_SPOT_LIST_HISTORY,
       parkingPostList: parkingSpotList,
     );
   }
@@ -146,7 +152,7 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
     final encodedList = jsonEncode(listGeneretedMap);
 
     final isSaved = await storageService.write(
-      keyName: PARKING_SPOT_LIST,
+      keyName: keyNameStorage,
       value: encodedList,
     );
 

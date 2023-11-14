@@ -11,7 +11,7 @@ abstract class IParkingDataSource {
     required ParkingSpotModel parkingSpot,
   });
 
-  Future<void> checkOutTheVehicle({
+  Future<ParkingSpotModel> checkOutTheVehicle({
     required String parkingSpotId,
   });
 

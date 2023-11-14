@@ -1,3 +1,4 @@
+import '../../../domain/entities/parking_spot_entity.dart';
 import 'parking_state.dart';
 
 abstract class ParkingEvent {}
@@ -5,6 +6,12 @@ abstract class ParkingEvent {}
 class GetParkingSpotsEvent extends ParkingEvent {}
 
 class GenerateParkingSpotsEvent extends ParkingEvent {}
+
+class SaveToHistoryEvent extends ParkingEvent {
+  final ParkingSpotEntity parkingSpot;
+
+  SaveToHistoryEvent({required this.parkingSpot});
+}
 
 class SetCurrentFilterMenuEvent extends ParkingEvent {
   final CurrentMenuItem selectedMenu;

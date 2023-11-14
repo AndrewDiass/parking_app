@@ -161,8 +161,26 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
   }
 
   void _listener(BuildContext context, ParkingSpotEditState state) {
-    if (state.status == ParkingSpotEditStatus.SUCCESS) {
+    if (state.status == ParkingSpotEditStatus.ENTRY_SUCCESS) {
       widget.parkingBloc.add(GetParkingSpotsEvent());
+      Navigator.pop(context);
+    }
+
+    if (state.status == ParkingSpotEditStatus.EXIT_SUCCESS) {
+      widget.parkingBloc.add(GetParkingSpotsEvent());
+      if (state.parkignSpotToSave != null) {
+        widget.parkingBloc
+            .add(SaveToHistoryEvent(parkingSpot: state.parkignSpotToSave!));
+      }
+      Navigator.pop(context);
+    }
+
+    if (state.status == ParkingSpotEditStatus.FAILURE) {
+      ToastUtil.showToast(
+        'Ops...',
+        'Desculpe, não conseguimos executar essa ação.',
+        backgroundColor: Colors.white,
+      );
       Navigator.pop(context);
     }
   }

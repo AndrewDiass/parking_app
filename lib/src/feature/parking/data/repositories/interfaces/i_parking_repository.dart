@@ -14,7 +14,7 @@ abstract class IParkingRepository {
     required ParkingSpotEntity parkingSpot,
   });
 
-  Future<Either<Failure, void>> checkOutTheVehicle({
+  Future<Either<Failure, ParkingSpotEntity>> checkOutTheVehicle({
     required String parkingSpotId,
   });
 
