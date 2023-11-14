@@ -13,6 +13,6 @@ class GenerateParkingSpotUseCase implements IGenerateParkingSpotUseCase {
   Future<Either<Failure, List<ParkingSpotEntity>>> call({
     required List<ParkingSpotEntity> listGenereted,
   }) async {
-    return repository.generateParkingSpot(listGenereted: listGenereted);
+    return await repository.generateParkingSpot(listGenereted: listGenereted);
   }
 }

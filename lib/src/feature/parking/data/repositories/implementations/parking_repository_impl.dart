@@ -80,6 +80,29 @@ class ParkingRepositoryImpl implements IParkingRepository {
     );
   }
 
+  @override
+  Future<Either<Failure, bool>> saveToHistory({
+    required ParkingSpotEntity parkingSpot,
+  }) {
+    return _handleRequestOrErros<bool>(
+      () async {
+        return await dataSource.saveToHistory(
+          parkingSpot: ParkingSpotModel(
+            id: parkingSpot.id,
+            positionName: parkingSpot.positionName,
+            positionNumber: parkingSpot.positionNumber,
+            parkingSpotStatus: parkingSpot.parkingSpotStatus,
+            createdAt: parkingSpot.createdAt,
+            updatedAt: parkingSpot.updatedAt,
+            entryDate: parkingSpot.entryDate,
+            nameOfCarOwner: parkingSpot.nameOfCarOwner,
+            vehiclePlate: parkingSpot.vehiclePlate,
+          ),
+        );
+      },
+    );
+  }
+
   Future<Either<Failure, T>> _handleRequestOrErros<T>(
     Future<T> Function() call,
   ) async {

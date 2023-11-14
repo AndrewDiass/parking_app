@@ -7,6 +7,7 @@ import '../../models/parking_spot_model.dart';
 import '../interfaces/i_parking_datasource.dart';
 
 const PARKING_SPOT_LIST = 'parking_spot_list';
+const PARKING_SPOT_LIST_HISTORY = 'parking_spot_list_history';
 
 class StorageParkingDataSourceImpl implements IParkingDataSource {
   const StorageParkingDataSourceImpl({
@@ -99,6 +100,21 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
     } catch (e) {
       throw DataSourceException(message: dataSourceException);
     }
+  }
+
+  @override
+  Future<bool> saveToHistory({
+    required ParkingSpotModel parkingSpot,
+  }) async {
+    final parkingSpotList = await readParkingSpotListStorage(
+      keyNameStorage: PARKING_SPOT_LIST_HISTORY,
+    );
+    parkingSpotList.add(parkingSpot);
+
+    return await writeParkingSpotListStorage(
+      keyNameStorage: PARKING_SPOT_LIST,
+      parkingPostList: parkingSpotList,
+    );
   }
 
   Future<List<ParkingSpotModel>> readParkingSpotListStorage({

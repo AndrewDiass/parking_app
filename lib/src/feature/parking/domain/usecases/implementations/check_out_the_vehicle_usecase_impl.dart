@@ -12,6 +12,6 @@ class CheckOutTheVehicleUseCase implements ICheckOutTheVehicleUseCase {
   Future<Either<Failure, void>> call({
     required String parkingSpotId,
   }) async {
-    return repository.checkOutTheVehicle(parkingSpotId: parkingSpotId);
+    return await repository.checkOutTheVehicle(parkingSpotId: parkingSpotId);
   }
 }

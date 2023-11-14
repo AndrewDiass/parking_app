@@ -13,6 +13,6 @@ class CheckInTheVehicleUseCase implements ICheckInTheVehicleUseCase {
   Future<Either<Failure, ParkingSpotEntity>> call({
     required ParkingSpotEntity parkingSpot,
   }) async {
-    return repository.checkInTheVehicle(parkingSpot: parkingSpot);
+    return await repository.checkInTheVehicle(parkingSpot: parkingSpot);
   }
 }

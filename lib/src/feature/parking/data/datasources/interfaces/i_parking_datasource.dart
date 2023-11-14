@@ -14,4 +14,8 @@ abstract class IParkingDataSource {
   Future<void> checkOutTheVehicle({
     required String parkingSpotId,
   });
+
+  Future<bool> saveToHistory({
+    required ParkingSpotModel parkingSpot,
+  });
 }

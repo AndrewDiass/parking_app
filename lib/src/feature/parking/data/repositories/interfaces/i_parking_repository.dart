@@ -17,4 +17,8 @@ abstract class IParkingRepository {
   Future<Either<Failure, void>> checkOutTheVehicle({
     required String parkingSpotId,
   });
+
+  Future<Either<Failure, bool>> saveToHistory({
+    required ParkingSpotEntity parkingSpot,
+  });
 }
