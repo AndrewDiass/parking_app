@@ -26,8 +26,6 @@ class ParkingBloc extends Bloc<ParkingEvent, ParkingState> {
           emit(state.copyWith(status: ParkingStatus.FAILURE));
         },
         (parkingSpotListResult) {
-          emit(state.copyWith(status: ParkingStatus.SUCCESS));
-
           emit(
             state.copyWith(
               status: ParkingStatus.SUCCESS,
@@ -60,11 +58,6 @@ class ParkingBloc extends Bloc<ParkingEvent, ParkingState> {
           emit(state.copyWith(status: ParkingStatus.FAILURE));
         },
         (parkingSpotListResult) {
-          emit(state.copyWith(
-            parkingSpotList: result,
-            status: ParkingStatus.SUCCESS,
-          ));
-
           emit(
             state.copyWith(
               status: ParkingStatus.SUCCESS,
