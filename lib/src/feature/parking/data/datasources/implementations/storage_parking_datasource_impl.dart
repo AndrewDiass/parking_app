@@ -18,7 +18,8 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
   @override
   Future<List<ParkingSpotModel>> getParkingSpotList() async {
     try {
-      return await readParkingSpotListStorage();
+      return await readParkingSpotListStorage(
+          keyNameStorage: PARKING_SPOT_LIST);
     } catch (e) {
       throw DataSourceException(message: dataSourceException);
     }
@@ -29,7 +30,10 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
     required List<ParkingSpotModel> listGenereted,
   }) async {
     try {
-      final isSaved = await writeParkingSpotListStorage(listGenereted);
+      final isSaved = await writeParkingSpotListStorage(
+        keyNameStorage: PARKING_SPOT_LIST,
+        parkingPostList: listGenereted,
+      );
       if (isSaved) {
         return listGenereted;
       } else {
@@ -45,14 +49,16 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
     required ParkingSpotModel parkingSpot,
   }) async {
     try {
-      final parkingSpotList = await readParkingSpotListStorage();
+      final parkingSpotList =
+          await readParkingSpotListStorage(keyNameStorage: PARKING_SPOT_LIST);
 
       final index =
           parkingSpotList.indexWhere((spot) => spot.id == parkingSpot.id);
 
       parkingSpotList[index] = parkingSpot;
 
-      final isSaved = await writeParkingSpotListStorage(parkingSpotList);
+      final isSaved = await writeParkingSpotListStorage(
+          keyNameStorage: PARKING_SPOT_LIST, parkingPostList: parkingSpotList);
 
       if (isSaved) {
         return parkingSpot;
@@ -69,7 +75,8 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
     required String parkingSpotId,
   }) async {
     try {
-      final parkingSpotList = await readParkingSpotListStorage();
+      final parkingSpotList =
+          await readParkingSpotListStorage(keyNameStorage: PARKING_SPOT_LIST);
 
       final index =
           parkingSpotList.indexWhere((spot) => spot.id == parkingSpotId);
@@ -87,14 +94,17 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
         entryDate: null,
       );
 
-      await writeParkingSpotListStorage(parkingSpotList);
+      await writeParkingSpotListStorage(
+          keyNameStorage: PARKING_SPOT_LIST, parkingPostList: parkingSpotList);
     } catch (e) {
       throw DataSourceException(message: dataSourceException);
     }
   }
 
-  Future<List<ParkingSpotModel>> readParkingSpotListStorage() async {
-    final result = await storageService.read(keyName: PARKING_SPOT_LIST);
+  Future<List<ParkingSpotModel>> readParkingSpotListStorage({
+    required String keyNameStorage,
+  }) async {
+    final result = await storageService.read(keyName: keyNameStorage);
 
     if (result != null) {
       final List<dynamic> jsonList = jsonDecode(result) as List<dynamic>;
@@ -110,8 +120,10 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
     }
   }
 
-  Future<bool> writeParkingSpotListStorage(
-      List<ParkingSpotModel> parkingPostList) async {
+  Future<bool> writeParkingSpotListStorage({
+    required String keyNameStorage,
+    required List<ParkingSpotModel> parkingPostList,
+  }) async {
     final listGeneretedMap =
         parkingPostList.map((spot) => spot.toJson()).toList();
 

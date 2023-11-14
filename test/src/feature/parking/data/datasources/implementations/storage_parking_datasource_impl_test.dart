@@ -220,7 +220,8 @@ void main() {
       when(() => mockMemoryStorageService.read(keyName: PARKING_SPOT_LIST))
           .thenAnswer((_) async => encodedList);
 
-      final result = await dataSource.readParkingSpotListStorage();
+      final result = await dataSource.readParkingSpotListStorage(
+          keyNameStorage: PARKING_SPOT_LIST);
 
       expect(result, isA<List<ParkingSpotModel>>());
       expect(result.length, greaterThan(0));
@@ -241,7 +242,9 @@ void main() {
       when(() => mockMemoryStorageService.read(keyName: PARKING_SPOT_LIST))
           .thenAnswer((_) async => encodedEmptyList);
 
-      final result = await dataSource.readParkingSpotListStorage();
+      final result = await dataSource.readParkingSpotListStorage(
+        keyNameStorage: PARKING_SPOT_LIST,
+      );
 
       expect(result, isA<List<ParkingSpotModel>>());
       expect(result.length, equals(0));
@@ -256,7 +259,10 @@ void main() {
           value: any(named: 'value'),
         ),
       ).thenAnswer((_) async => true);
-      final result = await dataSource.writeParkingSpotListStorage([]);
+      final result = await dataSource.writeParkingSpotListStorage(
+        keyNameStorage: PARKING_SPOT_LIST,
+        parkingPostList: [],
+      );
 
       expect(result, isTrue);
     });
@@ -268,7 +274,10 @@ void main() {
           value: any(named: 'value'),
         ),
       ).thenAnswer((_) async => false);
-      final result = await dataSource.writeParkingSpotListStorage([]);
+      final result = await dataSource.writeParkingSpotListStorage(
+        keyNameStorage: PARKING_SPOT_LIST,
+        parkingPostList: [],
+      );
 
       expect(result, isFalse);
     });
