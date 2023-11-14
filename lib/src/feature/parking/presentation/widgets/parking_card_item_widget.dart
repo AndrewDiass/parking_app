@@ -22,8 +22,6 @@ class ParkingCardItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    print(spot.parkingSpotStatus);
-    print(spot.parkingSpotStatus.runtimeType);
     return InkWell(
       onTap: () => editingParkingSpot(context),
       child: ClipRRect(

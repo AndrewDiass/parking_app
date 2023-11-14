@@ -29,6 +29,10 @@ class SharedPreferencesStorageService implements IMemoryStorageService {
   @override
   Future<bool> write({required String keyName, required String value}) async {
     final prefs = await getInstance();
-    return await prefs.setString(keyName, value);
+    try {
+      return await prefs.setString(keyName, value);
+    } catch (e) {
+      return false;
+    }
   }
 }

@@ -9,7 +9,6 @@ class PKTextFormFieldWidget extends TextFormField {
     String? validatorText,
   }) : super(
             validator: (value) {
-              print(value);
               if (value == null || value.isEmpty) {
                 return validatorText ?? 'Please enter some text';
               }

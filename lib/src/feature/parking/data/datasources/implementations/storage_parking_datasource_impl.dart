@@ -116,6 +116,7 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
         parkingPostList.map((spot) => spot.toJson()).toList();
 
     final encodedList = jsonEncode(listGeneretedMap);
+
     final isSaved = await storageService.write(
       keyName: PARKING_SPOT_LIST,
       value: encodedList,
