@@ -64,9 +64,19 @@ class _ParkingPageState extends State<ParkingPage> {
             children: [
               PopupMenuButton<CurrentMenuItem>(
                 initialValue: state.currentMenuItem,
-                child: Text(
-                  state.currentTextMenu ??
-                      'Todas as vagas (${state.parkingSpotList.length})',
+                child: InkWell(
+                  child: Row(
+                    children: [
+                      Text(
+                        state.currentTextMenu ??
+                            'Todas as vagas (${state.parkingSpotList.length})',
+                      ),
+                      Icon(
+                        Icons.arrow_drop_down_rounded,
+                        size: 36,
+                      )
+                    ],
+                  ),
                 ),
                 onSelected: (CurrentMenuItem selectedMenu) => handleSetMenuItem(
                   selectedMenu: selectedMenu,
