@@ -11,6 +11,8 @@ import '../bloc/parking/parking_state.dart';
 import '../bloc/parking_spot_edit/parking_spot_edit_bloc.dart';
 import '../widgets/parking_card_item_widget.dart';
 
+const PARKING_ROUTE_NAME = 'parking_page';
+
 class ParkingPage extends StatefulWidget {
   ParkingPage({
     Key? key,

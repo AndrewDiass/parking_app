@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../../../core/utils/enums/parking_spot_status.dart';
 import '../../../../../shared/utils/toast_util.dart';
@@ -125,7 +126,7 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
                         children: [
                           ElevatedButton(
                             child: const Text('Cancelar'),
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () => Modular.to.pop(context),
                           ),
                           SizedBox(
                             width: 10,
@@ -149,7 +150,7 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
                 right: 10,
                 top: 10,
                 child: IconButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Modular.to.pop(context),
                   icon: Icon(Icons.close),
                 ),
               )
@@ -163,7 +164,7 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
   void _listener(BuildContext context, ParkingSpotEditState state) {
     if (state.status == ParkingSpotEditStatus.ENTRY_SUCCESS) {
       widget.parkingBloc.add(GetParkingSpotsEvent());
-      Navigator.pop(context);
+      Modular.to.pop(context);
     }
 
     if (state.status == ParkingSpotEditStatus.EXIT_SUCCESS) {
@@ -172,7 +173,7 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
         widget.parkingBloc
             .add(SaveToHistoryEvent(parkingSpot: state.parkignSpotToSave!));
       }
-      Navigator.pop(context);
+      Modular.to.pop(context);
     }
 
     if (state.status == ParkingSpotEditStatus.FAILURE) {
@@ -181,7 +182,7 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
         'Desculpe, não conseguimos executar essa ação.',
         backgroundColor: Colors.white,
       );
-      Navigator.pop(context);
+      Modular.to.pop(context);
     }
   }
 

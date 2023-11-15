@@ -95,6 +95,7 @@ class ParkingRepositoryImpl implements IParkingRepository {
             createdAt: parkingSpot.createdAt,
             updatedAt: parkingSpot.updatedAt,
             entryDate: parkingSpot.entryDate,
+            departureDate: parkingSpot.departureDate,
             nameOfCarOwner: parkingSpot.nameOfCarOwner,
             vehiclePlate: parkingSpot.vehiclePlate,
           ),

@@ -82,7 +82,9 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
       final index =
           parkingSpotList.indexWhere((spot) => spot.id == parkingSpotId);
 
-      final spotSaveToHistory = parkingSpotList[index].copyWith();
+      final spotSaveToHistory = parkingSpotList[index].copyWith(
+        departureDate: DateTime.now().millisecondsSinceEpoch,
+      );
 
       parkingSpotList[index] = ParkingSpotModel(
         id: parkingSpotList[index].id,
@@ -100,9 +102,7 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
       await writeParkingSpotListStorage(
           keyNameStorage: PARKING_SPOT_LIST, parkingPostList: parkingSpotList);
 
-      return spotSaveToHistory.copyWith(
-        departureDate: DateTime.now().millisecondsSinceEpoch,
-      );
+      return spotSaveToHistory;
     } catch (e) {
       throw DataSourceException(message: dataSourceException);
     }
