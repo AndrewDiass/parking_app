@@ -5,8 +5,8 @@ import 'core/utils/services/interfaces/i_storage_service.dart';
 import 'feature/parking/presentation/pages/parking_page.dart';
 import 'feature/parking_history/presentation/pages/parking_history_page.dart';
 import 'modules/home/home.dart';
-import 'modules/parking_history/parking_history_module.dart';
 import 'modules/parking/parking_module.dart';
+import 'modules/parking_history/parking_history_module.dart';
 
 class AppModule extends Module {
   @override

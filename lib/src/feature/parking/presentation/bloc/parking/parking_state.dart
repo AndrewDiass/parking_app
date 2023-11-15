@@ -17,6 +17,9 @@ enum ParkingStatus {
 
 class ParkingState extends Equatable {
   final List<ParkingSpotEntity> parkingSpotList;
+  final List<ParkingSpotEntity>? parkingSpotListAll;
+  final List<ParkingSpotEntity>? parkingSpotListAvailable;
+  final List<ParkingSpotEntity>? parkingSpotListBusy;
   final String? messageFailure;
   final ParkingStatus status;
   final CurrentMenuItem currentMenuItem;
@@ -24,6 +27,9 @@ class ParkingState extends Equatable {
 
   const ParkingState._({
     required this.parkingSpotList,
+    this.parkingSpotListAll,
+    this.parkingSpotListAvailable,
+    this.parkingSpotListBusy,
     this.messageFailure,
     required this.status,
     required this.currentMenuItem,
@@ -33,6 +39,9 @@ class ParkingState extends Equatable {
   ParkingState.inital()
       : this._(
           parkingSpotList: [],
+          parkingSpotListAll: [],
+          parkingSpotListAvailable: [],
+          parkingSpotListBusy: [],
           messageFailure: '',
           status: ParkingStatus.INITIAL,
           currentMenuItem: CurrentMenuItem.ALL,
@@ -41,6 +50,9 @@ class ParkingState extends Equatable {
   @override
   List<Object?> get props => [
         parkingSpotList,
+        parkingSpotListAll,
+        parkingSpotListAvailable,
+        parkingSpotListBusy,
         messageFailure,
         status,
         currentMenuItem,
@@ -49,6 +61,9 @@ class ParkingState extends Equatable {
 
   ParkingState copyWith({
     List<ParkingSpotEntity>? parkingSpotList,
+    List<ParkingSpotEntity>? parkingSpotListAll,
+    List<ParkingSpotEntity>? parkingSpotListAvailable,
+    List<ParkingSpotEntity>? parkingSpotListBusy,
     String? messageFailure,
     ParkingStatus? status,
     CurrentMenuItem? currentMenuItem,
@@ -56,6 +71,10 @@ class ParkingState extends Equatable {
   }) {
     return ParkingState._(
       parkingSpotList: parkingSpotList ?? this.parkingSpotList,
+      parkingSpotListAll: parkingSpotListAll ?? this.parkingSpotListAll,
+      parkingSpotListAvailable:
+          parkingSpotListAvailable ?? this.parkingSpotListAvailable,
+      parkingSpotListBusy: parkingSpotListBusy ?? this.parkingSpotListBusy,
       messageFailure: messageFailure ?? this.messageFailure,
       status: status ?? this.status,
       currentMenuItem: currentMenuItem ?? this.currentMenuItem,

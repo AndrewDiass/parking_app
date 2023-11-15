@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utils/enums/parking_spot_status.dart';
 import '../../../../shared/utils/toast_util.dart';
 import '../../../../shared/widgets/buttons/pk_button_text_widget.dart';
 import '../bloc/parking/parking_bloc.dart';
@@ -50,18 +49,10 @@ class _ParkingPageState extends State<ParkingPage> {
   }
 
   Widget _builder(BuildContext context, ParkingState state) {
-    // final theme = Theme.of(context);
-
     if (state.status == ParkingStatus.SUCCESS &&
         state.parkingSpotList.isEmpty) {
       return _buildEmptySpot(context, state);
     }
-
-    final busySpot = state.parkingSpotList
-        .where((spot) => spot.parkingSpotStatus == ParkingSpotStatus.BUSY);
-
-    final availableSpot = state.parkingSpotList
-        .where((spot) => spot.parkingSpotStatus == ParkingSpotStatus.AVAILABLE);
 
     return Column(
       children: [
@@ -79,28 +70,28 @@ class _ParkingPageState extends State<ParkingPage> {
                 ),
                 onSelected: (CurrentMenuItem selectedMenu) => handleSetMenuItem(
                   selectedMenu: selectedMenu,
-                  allSpot: state.parkingSpotList.length,
-                  busySpot: busySpot.length,
-                  availableSpot: availableSpot.length,
+                  allSpot: state.parkingSpotListAll?.length ?? 0,
+                  busySpot: state.parkingSpotListBusy?.length ?? 0,
+                  availableSpot: state.parkingSpotListAvailable?.length ?? 0,
                 ),
                 itemBuilder: (BuildContext context) =>
                     <PopupMenuEntry<CurrentMenuItem>>[
                   PopupMenuItem<CurrentMenuItem>(
                     value: CurrentMenuItem.ALL,
                     child: Text(
-                      'Todas as vagas (${state.parkingSpotList.length})',
+                      'Todas as vagas (${state.parkingSpotListAll?.length ?? 0})',
                     ),
                   ),
                   PopupMenuItem<CurrentMenuItem>(
                     value: CurrentMenuItem.BUSY,
                     child: Text(
-                      'Vagas Ocupadas (${busySpot.length})',
+                      'Vagas Ocupadas (${state.parkingSpotListBusy?.length ?? 0})',
                     ),
                   ),
                   PopupMenuItem<CurrentMenuItem>(
                     value: CurrentMenuItem.AVAILABLE,
                     child: Text(
-                      'Vagas Disponíveis (${availableSpot.length})',
+                      'Vagas Disponíveis (${state.parkingSpotListAvailable?.length ?? 0})',
                     ),
                   ),
                 ],

@@ -30,10 +30,36 @@ class ParkingBloc extends Bloc<ParkingEvent, ParkingState> {
           emit(state.copyWith(status: ParkingStatus.FAILURE));
         },
         (parkingSpotListResult) {
+          List<ParkingSpotEntity> currentList = [];
+          final parkingSpotListAvailable = parkingSpotListResult
+              .where((spot) =>
+                  spot.parkingSpotStatus == ParkingSpotStatus.AVAILABLE)
+              .toList();
+          final parkingSpotListBusy = parkingSpotListResult
+              .where((spot) => spot.parkingSpotStatus == ParkingSpotStatus.BUSY)
+              .toList();
+
+          switch (state.currentMenuItem) {
+            case CurrentMenuItem.AVAILABLE:
+              currentList = parkingSpotListAvailable;
+              break;
+
+            case CurrentMenuItem.BUSY:
+              currentList = parkingSpotListBusy;
+              break;
+
+            case CurrentMenuItem.ALL:
+            default:
+              currentList = parkingSpotListResult;
+          }
+
           emit(
             state.copyWith(
               status: ParkingStatus.SUCCESS,
-              parkingSpotList: parkingSpotListResult,
+              parkingSpotList: currentList,
+              parkingSpotListAvailable: parkingSpotListAvailable,
+              parkingSpotListBusy: parkingSpotListBusy,
+              parkingSpotListAll: currentList,
             ),
           );
         },
@@ -101,19 +127,28 @@ class ParkingBloc extends Bloc<ParkingEvent, ParkingState> {
       switch (event.selectedMenu) {
         case CurrentMenuItem.AVAILABLE:
           textMenu = 'Vagas Disponíveis (${event.availableSpot})';
+          emit(state.copyWith(
+            currentTextMenu: textMenu,
+            currentMenuItem: event.selectedMenu,
+            parkingSpotList: state.parkingSpotListAvailable,
+          ));
           break;
         case CurrentMenuItem.BUSY:
           textMenu = 'Vagas Ocupadas (${event.busySpot})';
+          emit(state.copyWith(
+            currentTextMenu: textMenu,
+            currentMenuItem: event.selectedMenu,
+            parkingSpotList: state.parkingSpotListBusy,
+          ));
           break;
         case CurrentMenuItem.ALL:
         default:
           textMenu = 'Todas as vagas (${event.allSpot})';
+          emit(state.copyWith(
+              currentTextMenu: textMenu,
+              currentMenuItem: event.selectedMenu,
+              parkingSpotList: state.parkingSpotListAll));
       }
-
-      emit(state.copyWith(
-        currentTextMenu: textMenu,
-        currentMenuItem: event.selectedMenu,
-      ));
     });
   }
 }
