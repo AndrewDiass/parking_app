@@ -30,6 +30,7 @@ class ParkingBloc extends Bloc<ParkingEvent, ParkingState> {
           emit(state.copyWith(status: ParkingStatus.FAILURE));
         },
         (parkingSpotListResult) {
+          String textMenu = '';
           List<ParkingSpotEntity> currentList = [];
           final parkingSpotListAvailable = parkingSpotListResult
               .where((spot) =>
@@ -42,15 +43,19 @@ class ParkingBloc extends Bloc<ParkingEvent, ParkingState> {
           switch (state.currentMenuItem) {
             case CurrentMenuItem.AVAILABLE:
               currentList = parkingSpotListAvailable;
+              textMenu =
+                  'Vagas Disponíveis (${parkingSpotListAvailable.length})';
               break;
 
             case CurrentMenuItem.BUSY:
               currentList = parkingSpotListBusy;
+              textMenu = 'Vagas Ocupadas (${parkingSpotListBusy.length})';
               break;
 
             case CurrentMenuItem.ALL:
             default:
               currentList = parkingSpotListResult;
+              textMenu = 'Todas as vagas (${parkingSpotListResult.length})';
           }
 
           emit(
@@ -59,7 +64,8 @@ class ParkingBloc extends Bloc<ParkingEvent, ParkingState> {
               parkingSpotList: currentList,
               parkingSpotListAvailable: parkingSpotListAvailable,
               parkingSpotListBusy: parkingSpotListBusy,
-              parkingSpotListAll: currentList,
+              parkingSpotListAll: parkingSpotListResult,
+              currentTextMenu: textMenu,
             ),
           );
         },
@@ -81,7 +87,7 @@ class ParkingBloc extends Bloc<ParkingEvent, ParkingState> {
       );
 
       final parkingSpots =
-          await _generateParkingSpotUseCase(listGenereted: result);
+          await _generateParkingSpotUseCase(listGenerated: result);
 
       parkingSpots.fold(
         (failure) {

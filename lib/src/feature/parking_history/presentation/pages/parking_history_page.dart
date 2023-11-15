@@ -77,7 +77,7 @@ class _ParkingHistoryPageState extends State<ParkingHistoryPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   richTextWidget(
-                    firstText: 'Dono: ',
+                    firstText: 'Cliente: ',
                     secondText:
                         '${state.parkingSpotList[index].nameOfCarOwner}',
                   ),

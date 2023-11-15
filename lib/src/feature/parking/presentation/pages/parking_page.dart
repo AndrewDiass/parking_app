@@ -50,9 +50,24 @@ class _ParkingPageState extends State<ParkingPage> {
 
   Widget _builder(BuildContext context, ParkingState state) {
     if (state.status == ParkingStatus.SUCCESS &&
-        state.parkingSpotList.isEmpty) {
+        state.parkingSpotListAll!.isEmpty) {
       return _buildEmptySpot(context, state);
     }
+
+    final menuButton = InkWell(
+      child: Row(
+        children: [
+          Text(
+            state.currentTextMenu ??
+                'Todas as vagas (${state.parkingSpotListAll?.length ?? 0})',
+          ),
+          Icon(
+            Icons.arrow_drop_down_rounded,
+            size: 36,
+          )
+        ],
+      ),
+    );
 
     return Column(
       children: [
@@ -64,20 +79,9 @@ class _ParkingPageState extends State<ParkingPage> {
             children: [
               PopupMenuButton<CurrentMenuItem>(
                 initialValue: state.currentMenuItem,
-                child: InkWell(
-                  child: Row(
-                    children: [
-                      Text(
-                        state.currentTextMenu ??
-                            'Todas as vagas (${state.parkingSpotList.length})',
-                      ),
-                      Icon(
-                        Icons.arrow_drop_down_rounded,
-                        size: 36,
-                      )
-                    ],
-                  ),
-                ),
+                key: Key(
+                    '${state.parkingSpotListAvailable}${state.parkingSpotListBusy}'),
+                child: menuButton,
                 onSelected: (CurrentMenuItem selectedMenu) => handleSetMenuItem(
                   selectedMenu: selectedMenu,
                   allSpot: state.parkingSpotListAll?.length ?? 0,

@@ -8,11 +8,17 @@ class PKTextFormFieldWidget extends TextFormField {
     String? hintText,
     String? validatorText,
     bool? enabled = true,
+    int? maxLength,
+    int? minLength,
+    bool? isToUpperCase,
   }) : super(
           validator: (value) {
-            if (value == null || value.isEmpty) {
-              return validatorText ?? 'Please enter some text';
+            if (value == null ||
+                value.isEmpty ||
+                value.length < (minLength ?? 0)) {
+              return validatorText ?? 'Por favor, preencha o texto.';
             }
+
             return null;
           },
           decoration: InputDecoration(
@@ -27,8 +33,12 @@ class PKTextFormFieldWidget extends TextFormField {
             labelText: labelText,
             hintText: hintText,
           ),
+          maxLength: maxLength,
           onChanged: (String value) {
-            controller?.text = value;
+            if (isToUpperCase != null && isToUpperCase) {
+              controller?.text = value.toUpperCase();
+            } else
+              controller?.text = value;
           },
           enabled: enabled,
         );

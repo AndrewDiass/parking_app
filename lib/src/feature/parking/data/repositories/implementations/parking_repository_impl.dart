@@ -24,20 +24,20 @@ class ParkingRepositoryImpl implements IParkingRepository {
 
   @override
   Future<Either<Failure, List<ParkingSpotEntity>>> generateParkingSpot({
-    required List<ParkingSpotEntity> listGenereted,
+    required List<ParkingSpotEntity> listGenerated,
   }) {
     return _handleRequestOrErros<List<ParkingSpotEntity>>(
       () async {
         return await dataSource.generateParkingSpot(
-          listGenereted: List.generate(
-            listGenereted.length,
+          listGenerated: List.generate(
+            listGenerated.length,
             (index) => ParkingSpotModel(
-              id: listGenereted[index].id,
-              positionName: listGenereted[index].positionName,
-              positionNumber: listGenereted[index].positionNumber,
-              parkingSpotStatus: listGenereted[index].parkingSpotStatus,
-              createdAt: listGenereted[index].createdAt,
-              updatedAt: listGenereted[index].updatedAt,
+              id: listGenerated[index].id,
+              positionName: listGenerated[index].positionName,
+              positionNumber: listGenerated[index].positionNumber,
+              parkingSpotStatus: listGenerated[index].parkingSpotStatus,
+              createdAt: listGenerated[index].createdAt,
+              updatedAt: listGenerated[index].updatedAt,
             ),
           ),
         );

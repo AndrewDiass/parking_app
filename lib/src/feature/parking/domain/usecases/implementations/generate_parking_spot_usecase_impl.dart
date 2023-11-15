@@ -11,8 +11,8 @@ class GenerateParkingSpotUseCase implements IGenerateParkingSpotUseCase {
 
   @override
   Future<Either<Failure, List<ParkingSpotEntity>>> call({
-    required List<ParkingSpotEntity> listGenereted,
+    required List<ParkingSpotEntity> listGenerated,
   }) async {
-    return await repository.generateParkingSpot(listGenereted: listGenereted);
+    return await repository.generateParkingSpot(listGenerated: listGenerated);
   }
 }

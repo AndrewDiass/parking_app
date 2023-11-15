@@ -93,7 +93,7 @@ void main() {
       setUp: () {
         final mockList = returnParkingListModel(30);
         when(() => generateParkingSpotUseCase.call(
-                listGenereted: any(named: 'listGenereted')))
+                listGenerated: any(named: 'listGenerated')))
             .thenAnswer((_) async => Right(mockList));
       },
       act: (bloc) => bloc.add(GenerateParkingSpotsEvent()),

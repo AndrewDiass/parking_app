@@ -28,15 +28,15 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
 
   @override
   Future<List<ParkingSpotModel>> generateParkingSpot({
-    required List<ParkingSpotModel> listGenereted,
+    required List<ParkingSpotModel> listGenerated,
   }) async {
     try {
       final isSaved = await writeParkingSpotListStorage(
         keyNameStorage: PARKING_SPOT_LIST,
-        parkingPostList: listGenereted,
+        parkingPostList: listGenerated,
       );
       if (isSaved) {
-        return listGenereted;
+        return listGenerated;
       } else {
         throw DataSourceException(message: dataSourceException);
       }
@@ -146,10 +146,10 @@ class StorageParkingDataSourceImpl implements IParkingDataSource {
     required String keyNameStorage,
     required List<ParkingSpotModel> parkingPostList,
   }) async {
-    final listGeneretedMap =
+    final listGeneratedMap =
         parkingPostList.map((spot) => spot.toJson()).toList();
 
-    final encodedList = jsonEncode(listGeneretedMap);
+    final encodedList = jsonEncode(listGeneratedMap);
 
     final isSaved = await storageService.write(
       keyName: keyNameStorage,

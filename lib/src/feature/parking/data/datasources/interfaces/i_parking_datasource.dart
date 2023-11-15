@@ -4,7 +4,7 @@ abstract class IParkingDataSource {
   Future<List<ParkingSpotModel>> getParkingSpotList();
 
   Future<List<ParkingSpotModel>> generateParkingSpot({
-    required List<ParkingSpotModel> listGenereted,
+    required List<ParkingSpotModel> listGenerated,
   });
 
   Future<ParkingSpotModel> checkInTheVehicle({

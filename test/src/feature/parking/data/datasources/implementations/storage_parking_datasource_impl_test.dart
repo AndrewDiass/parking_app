@@ -58,7 +58,7 @@ void main() {
           )).thenAnswer((_) async => true);
 
       final result =
-          await dataSource.generateParkingSpot(listGenereted: mockList);
+          await dataSource.generateParkingSpot(listGenerated: mockList);
       expect(result, isA<List<ParkingSpotModel>>());
       expect(result.length, greaterThan(0));
     });
@@ -70,7 +70,7 @@ void main() {
             value: any(named: 'value'),
           )).thenThrow(Exception());
 
-      expect(dataSource.generateParkingSpot(listGenereted: mockList),
+      expect(dataSource.generateParkingSpot(listGenerated: mockList),
           throwsA(isA<DataSourceException>()));
     });
   });
@@ -234,10 +234,10 @@ void main() {
     test('You should return an empty list when there is no data', () async {
       final parkingListExample = [];
 
-      final listGeneretedMap =
+      final listGeneratedMap =
           parkingListExample.map((spot) => spot.toJson()).toList();
 
-      final encodedEmptyList = jsonEncode(listGeneretedMap);
+      final encodedEmptyList = jsonEncode(listGeneratedMap);
 
       when(() => mockMemoryStorageService.read(keyName: PARKING_SPOT_LIST))
           .thenAnswer((_) async => encodedEmptyList);
@@ -306,8 +306,8 @@ List<ParkingSpotModel> returnParkingListModel() {
 String returnEncodedList() {
   final parkingListExample = returnParkingListModel();
 
-  final listGeneretedMap =
+  final listGeneratedMap =
       parkingListExample.map((spot) => spot.toJson()).toList();
 
-  return jsonEncode(listGeneretedMap);
+  return jsonEncode(listGeneratedMap);
 }

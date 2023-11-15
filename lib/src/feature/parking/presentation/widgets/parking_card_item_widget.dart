@@ -60,43 +60,54 @@ class ParkingCardItemWidget extends StatelessWidget {
                   color: const Color(0xffeaf7fb),
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   width: double.maxFinite,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
+                      Center(
+                        child: Opacity(
+                          opacity: .26,
+                          child: Icon(
                             Icons.directions_car_filled_outlined,
-                            size: 34,
+                            size: 80,
                             color:
                                 spot.parkingSpotStatus == ParkingSpotStatus.BUSY
                                     ? Colors.red
                                     : Colors.green,
                           ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (spot.parkingSpotStatus ==
+                                  ParkingSpotStatus.BUSY &&
+                              spot.nameOfCarOwner != null &&
+                              spot.vehiclePlate != null) ...[
+                            Text(
+                              'Dono:',
+                              style: theme.textTheme.displaySmall,
+                            ),
+                            Text(
+                              spot.nameOfCarOwner!,
+                              style: theme.textTheme.displayMedium
+                                  ?.copyWith(color: Color(0xff13333f)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              'Placa:',
+                              style: theme.textTheme.displaySmall,
+                            ),
+                            Text(
+                              spot.vehiclePlate!,
+                              style: theme.textTheme.displayMedium
+                                  ?.copyWith(color: Color(0xff13333f)),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ]
                         ],
                       ),
-                      if (spot.parkingSpotStatus == ParkingSpotStatus.BUSY &&
-                          spot.nameOfCarOwner != null &&
-                          spot.vehiclePlate != null) ...[
-                        Text(
-                          'Dono:',
-                          style: theme.textTheme.displayMedium,
-                        ),
-                        Text(
-                          spot.nameOfCarOwner!,
-                          style: theme.textTheme.displaySmall,
-                        ),
-                        Text(
-                          'Placa:',
-                          style: theme.textTheme.displayMedium,
-                        ),
-                        Text(
-                          spot.vehiclePlate!,
-                          style: theme.textTheme.displaySmall,
-                        ),
-                      ]
                     ],
                   ),
                 ),

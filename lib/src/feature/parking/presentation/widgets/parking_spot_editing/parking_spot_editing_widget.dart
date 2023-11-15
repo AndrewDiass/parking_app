@@ -76,7 +76,10 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Text(
-                        'Editar vaga',
+                        widget.spotEditing.parkingSpotStatus ==
+                                ParkingSpotStatus.AVAILABLE
+                            ? 'Entrada'
+                            : 'Saída',
                         style: theme.textTheme.displayMedium
                             ?.copyWith(color: Color(0xff13333f)),
                       ),
@@ -113,17 +116,12 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
                         validatorText: 'Preencha placa do veículo',
                         enabled: widget.spotEditing.parkingSpotStatus !=
                             ParkingSpotStatus.BUSY,
+                        maxLength: 7,
+                        minLength: 7,
+                        isToUpperCase: true,
                       ),
                       SizedBox(
                         height: 10,
-                      ),
-                      Text(
-                        'Estado da vaga',
-                        style: theme.textTheme.displayMedium
-                            ?.copyWith(color: Color(0xff13333f)),
-                      ),
-                      SizedBox(
-                        height: 5,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -168,6 +166,11 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
   void _listener(BuildContext context, ParkingSpotEditState state) {
     if (state.status == ParkingSpotEditStatus.ENTRY_SUCCESS) {
       widget.parkingBloc.add(GetParkingSpotsEvent());
+      ToastUtil.showToast(
+        'Sucesso...',
+        'Agora a vaga esta ocupada',
+        backgroundColor: Colors.white,
+      );
       Modular.to.pop(context);
     }
 
@@ -177,6 +180,11 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
         widget.parkingBloc
             .add(SaveToHistoryEvent(parkingSpot: state.parkignSpotToSave!));
       }
+      ToastUtil.showToast(
+        'Sucesso...',
+        'Agora a vaga esta disponível',
+        backgroundColor: Colors.white,
+      );
       Modular.to.pop(context);
     }
 
