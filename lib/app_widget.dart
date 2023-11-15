@@ -9,6 +9,12 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Modular.setObservers(
+      [
+        BotToastNavigatorObserver(),
+      ],
+    );
+
     return MaterialApp.router(
       title: 'Estacionamento App',
       theme: PK_THEME_DATA,
