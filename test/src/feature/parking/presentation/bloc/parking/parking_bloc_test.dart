@@ -4,8 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:parking_app/src/core/utils/enums/parking_spot_status.dart';
 import 'package:parking_app/src/feature/parking/data/models/parking_spot_model.dart';
+import 'package:parking_app/src/feature/parking/domain/entities/parking_spot_entity.dart';
 import 'package:parking_app/src/feature/parking/domain/usecases/interfaces/i_generate_parking_spot_usecase.dart';
 import 'package:parking_app/src/feature/parking/domain/usecases/interfaces/i_get_parking_spot_list_usecase.dart';
+import 'package:parking_app/src/feature/parking/domain/usecases/interfaces/i_save_to_history_usecase.dart';
 import 'package:parking_app/src/feature/parking/presentation/bloc/parking/parking_bloc.dart';
 import 'package:parking_app/src/feature/parking/presentation/bloc/parking/parking_event.dart';
 import 'package:parking_app/src/feature/parking/presentation/bloc/parking/parking_state.dart';
@@ -16,13 +18,22 @@ class MockGenerateParkingSpotUseCase extends Mock
 class MockGetParkingSpotListUseCase extends Mock
     implements IGetParkingSpotListUseCase {}
 
+class MockSaveToHistoryUseCase extends Mock implements ISaveToHistoryUseCase {}
+
+class FakeParkingSpotEntity extends Fake implements ParkingSpotEntity {}
+
 void main() {
   late MockGetParkingSpotListUseCase getParkingSpotListUseCase;
   late MockGenerateParkingSpotUseCase generateParkingSpotUseCase;
+  late MockSaveToHistoryUseCase saveToHistoryUseCase;
+  late FakeParkingSpotEntity parkingSpotSaveToHistory;
 
-  setUp(() {
+  setUpAll(() {
+    registerFallbackValue(FakeParkingSpotEntity());
     getParkingSpotListUseCase = MockGetParkingSpotListUseCase();
     generateParkingSpotUseCase = MockGenerateParkingSpotUseCase();
+    saveToHistoryUseCase = MockSaveToHistoryUseCase();
+    parkingSpotSaveToHistory = FakeParkingSpotEntity();
   });
 
   group('ParkingBloc Test', () {
@@ -31,6 +42,7 @@ void main() {
       build: () => ParkingBloc(
         generateParkingSpotUseCase: generateParkingSpotUseCase,
         getParkingSpotListUseCase: getParkingSpotListUseCase,
+        saveToHistory: saveToHistoryUseCase,
       ),
       setUp: () {
         when(getParkingSpotListUseCase.call)
@@ -52,6 +64,7 @@ void main() {
       build: () => ParkingBloc(
         generateParkingSpotUseCase: generateParkingSpotUseCase,
         getParkingSpotListUseCase: getParkingSpotListUseCase,
+        saveToHistory: saveToHistoryUseCase,
       ),
       setUp: () {
         when(getParkingSpotListUseCase.call).thenAnswer((_) async => Right([]));
@@ -75,6 +88,7 @@ void main() {
       build: () => ParkingBloc(
         generateParkingSpotUseCase: generateParkingSpotUseCase,
         getParkingSpotListUseCase: getParkingSpotListUseCase,
+        saveToHistory: saveToHistoryUseCase,
       ),
       setUp: () {
         final mockList = returnParkingListModel(30);
@@ -93,6 +107,31 @@ void main() {
               'parkingSpotList',
               greaterThanOrEqualTo(30),
             ),
+      ],
+    );
+
+    blocTest<ParkingBloc, ParkingState>(
+      'Save ParkingSpot to history.',
+      build: () => ParkingBloc(
+        generateParkingSpotUseCase: generateParkingSpotUseCase,
+        getParkingSpotListUseCase: getParkingSpotListUseCase,
+        saveToHistory: saveToHistoryUseCase,
+      ),
+      setUp: () {
+        when(() => saveToHistoryUseCase.call(
+                parkingSpot: any(named: 'parkingSpot')))
+            .thenAnswer((_) async => Right(true));
+      },
+      act: (bloc) => bloc.add(
+        SaveToHistoryEvent(
+          parkingSpot: parkingSpotSaveToHistory,
+        ),
+      ),
+      expect: () => [
+        isA<ParkingState>()
+            .having((p) => p.status, 'status', ParkingStatus.LOADING),
+        isA<ParkingState>()
+            .having((p) => p.status, 'status', ParkingStatus.SUCCESS),
       ],
     );
   });
