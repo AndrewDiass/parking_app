@@ -1,0 +1,4 @@
+enum ParkingSpotStatus {
+  AVAILABLE,
+  BUSY,
+}
