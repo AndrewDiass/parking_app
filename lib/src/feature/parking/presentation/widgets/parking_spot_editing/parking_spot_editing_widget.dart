@@ -94,6 +94,8 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
                       PKTextFormFieldWidget(
                         controller: nameOfCarOwnerTextController,
                         validatorText: 'Preencha o nome do dono do veículo',
+                        enabled: widget.spotEditing.parkingSpotStatus !=
+                            ParkingSpotStatus.BUSY,
                       ),
                       SizedBox(
                         height: 10,
@@ -109,6 +111,8 @@ class _ParkingSpotEditingWidgetState extends State<ParkingSpotEditingWidget> {
                       PKTextFormFieldWidget(
                         controller: vehiclePlateTextController,
                         validatorText: 'Preencha placa do veículo',
+                        enabled: widget.spotEditing.parkingSpotStatus !=
+                            ParkingSpotStatus.BUSY,
                       ),
                       SizedBox(
                         height: 10,
